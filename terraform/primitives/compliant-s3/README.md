@@ -1,1 +1,7 @@
-This module enforces SC-28, AU-3, AU-6, CM-6, AC-3 on a single S3 bucket.
+This module enforces the following five NIST 800-53 controls on a single S3 bucket:
+
+SC-28 — Protection of Information at Rest
+AU-3 — Content of Audit Records
+AU-6 — Audit Record Review, Analysis, and Reporting
+CM-6 — Configuration Settings
+AC-3 — Access Enforcement

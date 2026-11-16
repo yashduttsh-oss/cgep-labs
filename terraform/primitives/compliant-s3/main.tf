@@ -41,13 +41,13 @@ resource "aws_s3_bucket" "primary" {
 # Using AES-256 to keep it simple. The commented block below shows how to 
 # switch to KMS-managed keys
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "primary" {
-  bucket = aws_s3_bucket.primary.id
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-  }
+# resource "aws_s3_bucket_server_side_encryption_configuration" "primary" {
+#  bucket = aws_s3_bucket.primary.id
+#  rule {
+#    apply_server_side_encryption_by_default {
+#      sse_algorithm = "AES256"
+#    }
+#  }
 
   # KMS teaser:
   # rule {

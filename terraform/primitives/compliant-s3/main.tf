@@ -90,18 +90,18 @@ resource "aws_s3_bucket_ownership_controls" "log" {
   }
 }
 
-# resource "aws_s3_bucket_acl" "log" {
-#  depends_on = [aws_s3_bucket_ownership_controls.log]
-#  bucket     = aws_s3_bucket.log.id
-#  acl        = "log-delivery-write"
-#}
+resource "aws_s3_bucket_acl" "log" {
+  depends_on = [aws_s3_bucket_ownership_controls.log]
+  bucket     = aws_s3_bucket.log.id
+  acl        = "log-delivery-write"
+}
 
-#resource "aws_s3_bucket_server_side_encryption_configuration" "log" {
-#  bucket = aws_s3_bucket.log.id
-#  rule {
-#    apply_server_side_encryption_by_default { sse_algorithm = "AES256" }
-#  }
-#}
+resource "aws_s3_bucket_server_side_encryption_configuration" "log" {
+  bucket = aws_s3_bucket.log.id
+  rule {
+    apply_server_side_encryption_by_default { sse_algorithm = "AES256" }
+  }
+}
 
 resource "aws_s3_bucket_public_access_block" "log" {
   bucket                  = aws_s3_bucket.log.id

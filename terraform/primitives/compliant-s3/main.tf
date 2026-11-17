@@ -41,13 +41,31 @@ resource "aws_s3_bucket" "primary" {
 # Using AES-256 to keep it simple. The commented block below shows how to 
 # switch to KMS-managed keys
 
+# resource "aws_s3_bucket_server_side_encryption_configuration" "primary" {
+#  bucket = aws_s3_bucket.primary.id
+#  rule {
+#    apply_server_side_encryption_by_default {
+#      sse_algorithm = "AES256"
+#    }
+#  }
+#}
+
+resource "aws_kms_key" "bucket" {
+  description             = "Customer-managed CMK for compliant-s3 lab buckets"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
+}
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "primary" {
   bucket = aws_s3_bucket.primary.id
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm     = "aws:kms"
+      kms_master_key_id = aws_kms_key.bucket.arn
     }
+    bucket_key_enabled = true
   }
+}
 
   # KMS teaser:
   # rule {
@@ -57,7 +75,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "primary" {
   #   }
   #   bucket_key_enabled = true
   # }
-}
+
 
 # CM-6: Versioning preserves prior object states for recovery and audit.
 resource "aws_s3_bucket_versioning" "primary" {
@@ -96,13 +114,23 @@ resource "aws_s3_bucket_acl" "log" {
   acl        = "log-delivery-write"
 }
 
+# resource "aws_s3_bucket_server_side_encryption_configuration" "log" {
+#  bucket = aws_s3_bucket.log.id
+#  rule {
+#    apply_server_side_encryption_by_default { sse_algorithm = "AES256" }
+#  }
+# }
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "log" {
   bucket = aws_s3_bucket.log.id
   rule {
-    apply_server_side_encryption_by_default { sse_algorithm = "AES256" }
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+      kms_master_key_id = aws_kms_key.bucket.arn
+    }
+    bucket_key_enabled = true
   }
 }
-
 resource "aws_s3_bucket_public_access_block" "log" {
   bucket                  = aws_s3_bucket.log.id
   block_public_acls       = true

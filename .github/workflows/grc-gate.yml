@@ -146,8 +146,8 @@ jobs:
             evidence/lab-4-4/
           retention-days: 90
 
-- name: Enforce gate
-  if: always()
-  run: |
-    test "${{ steps.conftest.outcome }}" = "success" \
-      && test "${{ steps.tfsec.outcome }}" = "success"
+      - name: Enforce gate
+        if: always()
+        run: |
+          test "${{ steps.conftest.outcome }}" = "success" \
+            && test "${{ steps.tfsec.outcome }}" = "success"

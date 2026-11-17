@@ -121,16 +121,17 @@ resource "aws_s3_bucket_acl" "log" {
 #  }
 # }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "log" {
-  bucket = aws_s3_bucket.log.id
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm     = "aws:kms"
-      kms_master_key_id = aws_kms_key.bucket.arn
-    }
-    bucket_key_enabled = true
-  }
-}
+# resource "aws_s3_bucket_server_side_encryption_configuration" "log" {
+#  bucket = aws_s3_bucket.log.id
+#  rule {
+#    apply_server_side_encryption_by_default {
+#      sse_algorithm     = "aws:kms"
+#      kms_master_key_id = aws_kms_key.bucket.arn
+#    }
+#    bucket_key_enabled = true
+#  }
+#}
+
 resource "aws_s3_bucket_public_access_block" "log" {
   bucket                  = aws_s3_bucket.log.id
   block_public_acls       = true

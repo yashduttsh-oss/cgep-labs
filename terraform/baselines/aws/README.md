@@ -4,3 +4,4 @@
 |---|---|---|
 | **CloudTrail** | Tamper-evident log of account activity ("who did what, when") | **AU-2** (event logging), **AU-12** (audit record generation), **AU-10** (non-repudiation / log-file validation) |
 | **Security Hub** | Consolidated findings pre-mapped to NIST 800-53 and AWS FSBP | **RA-5** (vulnerability monitoring & scanning), **SI-4** (system monitoring) |
+| **Config** | Point-in-time resource configuration state and change history | **CM-2** (baseline configuration), **CM-6** (configuration settings), **CM-8** (system component inventory) |

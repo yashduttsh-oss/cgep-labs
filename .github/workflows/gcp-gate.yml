@@ -1,0 +1,34 @@
+# .github/workflows/gcp-gate.yml
+name: gcp-gate
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write    # required to mint the GCP OIDC token
+  contents: read
+
+env:
+  TF_WORKING_DIR: terraform/baselines/gcp
+
+jobs:
+  gcp-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to GCP (OIDC)
+        uses: google-github-actions/auth@v2
+        with:
+          # terraform output -raw workload_identity_provider
+          workload_identity_provider: projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/github-actions/providers/github
+          # terraform output -raw wif_service_account_email
+          service_account: cgep-grc-gate-sa@your-gcp-project.iam.gserviceaccount.com
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Verify authentication
+        run: gcloud storage ls

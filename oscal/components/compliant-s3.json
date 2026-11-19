@@ -1,0 +1,86 @@
+{
+  "component-definition": {
+    "uuid": "cb20eebb-0f8e-4e05-b6fb-fb6db0c7b276",
+    "metadata": {
+      "title": "compliant-s3 module v1",
+      "last-modified": "2026-11-19T11:30:00+00:00",
+      "version": "1.0.0",
+      "oscal-version": "1.1.3",
+      "parties": [
+        {
+          "uuid": "72d7b14c-9973-49e9-a049-cfb2099d40ec",
+          "type": "organization",
+          "name": "GRC Engineering Club Lab"
+        }
+      ]
+    },
+    "components": [
+      {
+        "uuid": "bbb255c0-265b-4d71-b6ab-0e86e8d8b21c",
+        "type": "software",
+        "title": "compliant-s3",
+        "description": "Terraform module provisioning an S3 bucket with encryption, access logging, and least-privilege policies.",
+        "responsible-roles": [
+          { "role-id": "provider", "party-uuids": ["72d7b14c-9973-49e9-a049-cfb2099d40ec"] }
+        ],
+        "control-implementations": [
+          {
+            "uuid": "03e4a825-da2a-410b-b9db-2b5e97ff2abb",
+            "source": "https://raw.githubusercontent.com/usnistgov/oscal-content/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json",
+            "description": "NIST SP 800-53 Rev 5 controls implemented by the compliant-s3 module.",
+            "implemented-requirements": [
+              {
+                "uuid": "1f79c217-a898-4bb8-8875-1f6fb3521c3e",
+                "control-id": "sc-28",
+                "description": "Data at rest is protected via server-side encryption with AWS KMS, enforced on the bucket.",
+                "props": [
+                  { "name": "implementation-status", "value": "implemented" },
+                  { "name": "terraform-resource", "value": "aws_s3_bucket_server_side_encryption_configuration.primary" }
+                ],
+                "links": [
+                  { "href": "s3://cgep-lab-grc-evidence-vault-6b40f971/runs/44113314695/evidence-44113314695-2f606d8a69c3ecbb6168a1603582c7a5cc2eda77.tar.gz", "rel": "evidence" }
+                ]
+              },
+              {
+                "uuid": "19c69ec5-a87c-4661-84a4-2030ff5eca8b",
+                "control-id": "ac-3",
+                "description": "Access is enforced by a least-privilege bucket policy and Block Public Access settings.",
+                "props": [
+                  { "name": "implementation-status", "value": "implemented" },
+                  { "name": "terraform-resource", "value": "aws_s3_bucket_public_access_block.primary" }
+                ],
+                "links": [
+                  { "href": "s3://cgep-lab-grc-evidence-vault-6b40f971/runs/44113314695/evidence-44113314695-2f606d8a69c3ecbb6168a1603582c7a5cc2eda77.tar.gz", "rel": "evidence" }
+                ]
+              },
+              {
+                "uuid": "903d0355-1e58-4860-bd4d-9f3fad60513c",
+                "control-id": "au-3",
+                "description": "Access logging captures the event records required by AU-3 by writing to a dedicated log bucket.",
+                "props": [
+                  { "name": "implementation-status", "value": "implemented" },
+                  { "name": "terraform-resource", "value": "aws_s3_bucket_logging.primary" }
+                ],
+                "links": [
+                  { "href": "s3://cgep-lab-grc-evidence-vault-6b40f971/runs/44113314695/evidence-44113314695-2f606d8a69c3ecbb6168a1603582c7a5cc2eda77.tar.gz", "rel": "evidence" }
+                ]
+              },
+              {
+                "uuid": "c8769793-cf78-4280-b962-d2aadae7ff3b",
+                "control-id": "cm-6",
+                "description": "Baseline bucket configuration (versioning, ownership controls, TLS-only policy) is codified in the module.",
+                "props": [
+                  { "name": "implementation-status", "value": "implemented" },
+                  { "name": "terraform-resource", "value": "aws_s3_bucket_versioning.primary" }
+                ],
+                "links": [
+                  { "href": "s3://cgep-lab-grc-evidence-vault-6b40f971/runs/44113314695/evidence-44113314695-2f606d8a69c3ecbb6168a1603582c7a5cc2eda77.tar.gz", "rel": "evidence" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
